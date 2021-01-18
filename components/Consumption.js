@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {api} from '../api';
 
 const Consumption = () => {
@@ -22,9 +22,9 @@ const Consumption = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text>{JSON.stringify(history, null, 4)}</Text>
-    </View>
+    </ScrollView>
   );
 };
 

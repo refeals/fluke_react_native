@@ -1,6 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Platform, StyleSheet, Text, View} from 'react-native';
+import {
+  Button,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {format, parse} from 'date-fns';
 import {api} from '../api';
 
 const History = () => {
@@ -22,12 +30,15 @@ const History = () => {
 
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || new Date();
+    const formattedDate = format(currentDate, 'yyyy-MM-dd');
     setShowDatepicker(Platform.OS === 'ios');
 
-    if (which === 'start') {
-      setStartDate(currentDate);
-    } else if (which === 'end') {
-      setEndDate(currentDate);
+    if (selectedDate) {
+      if (which === 'start') {
+        setStartDate(formattedDate);
+      } else if (which === 'end') {
+        setEndDate(formattedDate);
+      }
     }
   };
 
@@ -41,6 +52,15 @@ const History = () => {
     setShowDatepicker(true);
   };
 
+  const setDatepickerInitialValue = () => {
+    if (which === 'start') {
+      return parse(startDate, 'yyyy-MM-dd', new Date());
+    } else if (which === 'end') {
+      return parse(endDate, 'yyyy-MM-dd', new Date());
+    }
+    return new Date();
+  };
+
   if (loading) {
     return (
       <View style={styles.container}>
@@ -50,7 +70,7 @@ const History = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Button onPress={onStartButtonPressed} title="Change start date" />
       <Button onPress={onEndButtonPressed} title="Change end date" />
       <Text>{JSON.stringify(data, null, 4)}</Text>
@@ -58,14 +78,15 @@ const History = () => {
       {showDatepicker && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={new Date()}
+          value={setDatepickerInitialValue()}
           mode={'date'}
-          is24Hour={true}
           display="default"
           onChange={onDateChange}
+          minimumDate={parse('2020-02-28', 'yyyy-MM-dd', new Date())}
+          maximumDate={parse('2020-08-21', 'yyyy-MM-dd', new Date())}
         />
       )}
-    </View>
+    </ScrollView>
   );
 };
 
