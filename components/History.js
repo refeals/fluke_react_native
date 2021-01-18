@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {api} from '../api';
 
 const History = () => {
@@ -18,10 +18,24 @@ const History = () => {
   }, [startDate, endDate]);
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
   }
 
-  return <Text>{JSON.stringify(data, null, 4)}</Text>;
+  return (
+    <View style={styles.container}>
+      <Text>{JSON.stringify(data, null, 4)}</Text>
+    </View>
+  );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 12,
+  },
+});
 
 export default History;
