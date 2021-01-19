@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {
   TouchableOpacity,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -12,16 +11,18 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {format, parse} from 'date-fns';
 import {api} from '../api';
 import HistoryItem from './HistoryItem';
+import Loading from './Loading';
 
 const History = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [startDate, setStartDate] = useState('2020-08-01');
-  const [endDate, setEndDate] = useState('2020-08-03');
+  const [endDate, setEndDate] = useState('2020-08-07');
   const [showDatepicker, setShowDatepicker] = useState(false);
   const [which, setWhich] = useState('start');
 
   useEffect(() => {
+    setLoading(true);
     api
       .get(`/usage/records/?startDate=${startDate}&endDate=${endDate}`)
       .then((res) => {
@@ -63,38 +64,38 @@ const History = () => {
     return new Date();
   };
 
-  if (loading) {
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={onStartButtonPressed}
-          style={styles.button}
-          activeOpacity={0.7}>
-          <Text style={styles.buttonText}>Change start date</Text>
+          style={loading ? styles.buttonDisabled : styles.button}
+          activeOpacity={0.7}
+          disabled={loading}>
+          <Text style={styles.buttonText}>Data de Início</Text>
           <Text style={styles.buttonText}>{startDate}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={onEndButtonPressed}
-          style={styles.button}
-          activeOpacity={0.7}>
-          <Text style={styles.buttonText}>Change end date</Text>
+          style={loading ? styles.buttonDisabled : styles.button}
+          activeOpacity={0.7}
+          disabled={loading}>
+          <Text style={styles.buttonText}>Data Final</Text>
           <Text style={styles.buttonText}>{endDate}</Text>
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        data={data}
-        renderItem={({item}) => <HistoryItem item={item} />}
-        keyExtractor={(item) => item.date}
-      />
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <Loading />
+        </View>
+      ) : (
+        <FlatList
+          data={data}
+          renderItem={({item}) => <HistoryItem item={item} />}
+          keyExtractor={(item) => item.date}
+        />
+      )}
 
       {showDatepicker && (
         <DateTimePicker
@@ -113,7 +114,8 @@ const History = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 12,
+    paddingVertical: 12,
+    flex: 1,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -125,11 +127,23 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 1,
     backgroundColor: 'lightgreen',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+  },
+  buttonDisabled: {
+    borderColor: 'green',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    backgroundColor: 'lightgreen',
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+    opacity: 0.2,
   },
   buttonText: {
     textAlign: 'center',
+  },
+  loadingContainer: {
+    flex: 1,
   },
 });
 

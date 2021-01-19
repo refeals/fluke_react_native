@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {api} from '../api';
+import Loading from './Loading';
 
 const Consumption = () => {
   const [history, setHistory] = useState([]);
@@ -14,11 +15,7 @@ const Consumption = () => {
   }, []);
 
   if (loading) {
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Loading />;
   }
 
   return (
@@ -31,6 +28,7 @@ const Consumption = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 12,
+    flex: 1,
   },
 });
 

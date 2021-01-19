@@ -31,6 +31,7 @@ const Faq = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 12,
+    flex: 1,
   },
   item: {
     marginBottom: 20,
