@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Button,
+  TouchableOpacity,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
   View,
+  FlatList,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {format, parse} from 'date-fns';
 import {api} from '../api';
+import HistoryItem from './HistoryItem';
 
 const History = () => {
   const [data, setData] = useState([]);
@@ -70,10 +72,29 @@ const History = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <Button onPress={onStartButtonPressed} title="Change start date" />
-      <Button onPress={onEndButtonPressed} title="Change end date" />
-      <Text>{JSON.stringify(data, null, 4)}</Text>
+    <View style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={onStartButtonPressed}
+          style={styles.button}
+          activeOpacity={0.7}>
+          <Text style={styles.buttonText}>Change start date</Text>
+          <Text style={styles.buttonText}>{startDate}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onEndButtonPressed}
+          style={styles.button}
+          activeOpacity={0.7}>
+          <Text style={styles.buttonText}>Change end date</Text>
+          <Text style={styles.buttonText}>{endDate}</Text>
+        </TouchableOpacity>
+      </View>
+
+      <FlatList
+        data={data}
+        renderItem={({item}) => <HistoryItem item={item} />}
+        keyExtractor={(item) => item.date}
+      />
 
       {showDatepicker && (
         <DateTimePicker
@@ -86,13 +107,29 @@ const History = () => {
           maximumDate={parse('2020-08-21', 'yyyy-MM-dd', new Date())}
         />
       )}
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     padding: 12,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginBottom: 12,
+  },
+  button: {
+    borderColor: 'green',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    backgroundColor: 'lightgreen',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  buttonText: {
+    textAlign: 'center',
   },
 });
 
