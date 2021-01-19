@@ -21,6 +21,8 @@ const History = () => {
   const [showDatepicker, setShowDatepicker] = useState(false);
   const [which, setWhich] = useState('start');
 
+  const columns = 2; // flat list columns
+
   useEffect(() => {
     setLoading(true);
     api
@@ -64,6 +66,19 @@ const History = () => {
     return new Date();
   };
 
+  const createRows = (dataArr, numColumns) => {
+    const rows = Math.floor(dataArr.length / numColumns);
+    let lastRowElements = dataArr.length - rows * numColumns;
+    while (lastRowElements !== numColumns) {
+      dataArr.push({
+        ...dataArr[lastRowElements],
+        empty: true,
+      });
+      lastRowElements += 1;
+    }
+    return dataArr;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
@@ -91,9 +106,10 @@ const History = () => {
         </View>
       ) : (
         <FlatList
-          data={data}
+          data={createRows(data, columns)}
           renderItem={({item}) => <HistoryItem item={item} />}
           keyExtractor={(item) => item.date}
+          numColumns={2}
         />
       )}
 
@@ -114,7 +130,7 @@ const History = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 12,
+    paddingTop: 12,
     flex: 1,
   },
   buttonContainer: {
