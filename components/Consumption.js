@@ -51,6 +51,7 @@ const Consumption = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fafafa',
     paddingTop: 12,
     paddingHorizontal: 12,
     paddingBottom: 4,

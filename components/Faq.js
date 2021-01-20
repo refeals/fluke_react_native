@@ -30,8 +30,9 @@ const Faq = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 12,
+    backgroundColor: '#fafafa',
     flex: 1,
+    padding: 12,
   },
   item: {
     marginBottom: 20,

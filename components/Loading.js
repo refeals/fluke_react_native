@@ -12,6 +12,7 @@ const Loading = () => {
 const styles = StyleSheet.create({
   loading: {
     flex: 1,
+    backgroundColor: '#fafafa',
     justifyContent: 'center',
     alignItems: 'center',
   },

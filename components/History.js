@@ -135,6 +135,7 @@ const History = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fafafa',
     paddingTop: 12,
     flex: 1,
   },
