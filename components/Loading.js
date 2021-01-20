@@ -1,10 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Loading = () => {
   return (
     <View style={styles.loading}>
-      <Text>Loading...</Text>
+      <AntDesign name="loading1" style={styles.icon} />
     </View>
   );
 };
