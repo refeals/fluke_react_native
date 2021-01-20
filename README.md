@@ -18,12 +18,10 @@ This project was not tested on iOS.
 * yarn android or yarn ios
 * yarn start
 
-End with an example of getting some data out of the system or using it for a little demo
-
 ### Built With
 
 * [React Native](https://reactnative.dev/)
-* [React Native Navigation](https://reactnavigation.org/)
+* [React Navigation](https://reactnavigation.org/)
 * [React Native Vectors Animation](https://github.com/oblador/react-native-vector-icons/)
 * [React Native DateTimePicker](https://github.com/react-native-datetimepicker/datetimepicker)
 * [axios](https://github.com/axios/axios/)
