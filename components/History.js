@@ -79,6 +79,11 @@ const History = () => {
     return dataArr;
   };
 
+  const formatButtonDate = (dateStr) => {
+    const parsedDate = parse(dateStr, 'yyyy-MM-dd', new Date(dateStr));
+    return format(parsedDate, 'dd/MM/yyyy');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
@@ -88,7 +93,7 @@ const History = () => {
           activeOpacity={0.7}
           disabled={loading}>
           <Text style={styles.buttonText}>Data de Início</Text>
-          <Text style={styles.buttonText}>{startDate}</Text>
+          <Text style={styles.buttonText}>{formatButtonDate(startDate)}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={onEndButtonPressed}
@@ -96,7 +101,7 @@ const History = () => {
           activeOpacity={0.7}
           disabled={loading}>
           <Text style={styles.buttonText}>Data Final</Text>
-          <Text style={styles.buttonText}>{endDate}</Text>
+          <Text style={styles.buttonText}>{formatButtonDate(endDate)}</Text>
         </TouchableOpacity>
       </View>
 
